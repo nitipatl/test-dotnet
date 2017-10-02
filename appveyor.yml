@@ -41,7 +41,10 @@ on_finish :
   - c:\Windows\System32\sc.exe config NetTcpPortSharing start= disabled
   - ps: >-
     $wc = New-Object System.Net.WebClient
+
     $wc.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ".\xunit-results.xml"))
+
     Push-AppveyorArtifact $env:".\xunit-results.xml"
+    
   # any cleanup in here
 deploy: off
