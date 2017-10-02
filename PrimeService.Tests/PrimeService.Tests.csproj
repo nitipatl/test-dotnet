@@ -13,4 +13,5 @@
   <ItemGroup>
     <ProjectReference Include="..\PrimeService\PrimeService.csproj" />
   </ItemGroup>
+  <DebugType>full</DebugType>
 </Project>
