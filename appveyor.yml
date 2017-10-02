@@ -38,6 +38,6 @@ test_script:
   # - cmd: dotnet test ./PrimeService.Tests/PrimeService.Tests.csproj
   - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests" -filter:"+[*]* -[xunit*]*" -output:".\xunit-results.xml" -oldStyle
 on_finish :
-  - ps: Push-AppveyorArtifact $env:".\xunit-results.xml"
+  - ps: Push-AppveyorArtifact ".\xunit-results.xml"
   # any cleanup in here
 deploy: off
