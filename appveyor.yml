@@ -38,12 +38,6 @@ test_script:
   # - cmd: dotnet test ./PrimeService.Tests/PrimeService.Tests.csproj
   - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests" -filter:"+[*]* -[xunit*]*" -output:".\xunit-results.xml" -oldStyle
 on_finish :
-  - ps: |
-    $wc = New-Object 'System.Net.WebClient'
-
-    $wc.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ".\xunit-results.xml"))
-
-    Push-AppveyorArtifact $env:".\xunit-results.xml"
-
+  - ps: Push-AppveyorArtifact $env:".\xunit-results.xml"
   # any cleanup in here
 deploy: off
