@@ -20,6 +20,7 @@ before_build:
   - cmd: dotnet --version
   # Display minimal restore text
   - cmd: dotnet restore ./PrimeService/PrimeService.csproj --verbosity m
+  - choco install "msbuild-sonarqube-runner" -y
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
   - cmd: dotnet publish ./PrimeService/PrimeService.csproj
@@ -39,5 +40,6 @@ test_script:
   - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests" -filter:"+[*]* -[xunit*]*" -output:".\xunit-results.xml" -oldStyle
 on_finish :
   - ps: Push-AppveyorArtifact ".\xunit-results.xml"
+  - MSBuild.SonarQube.Runner.exe begin /k:"dotnet-test" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.login=439d405a2f00413b559f69a692a257c8a391d390"
   # any cleanup in here
 deploy: off
