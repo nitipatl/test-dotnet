@@ -22,7 +22,10 @@ before_build:
   - cmd: dotnet restore ./PrimeService/PrimeService.csproj --verbosity m
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
+  - choco install "msbuild-sonarqube-runner" -y
+  - MSBuild.SonarQube.Runner.exe begin /k:"dotnet-test" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.login=439d405a2f00413b559f69a692a257c8a391d390"
   - cmd: dotnet publish ./PrimeService/PrimeService.csproj
+  - MSBuild.SonarQube.Runner.exe end /d:"sonar.login=439d405a2f00413b559f69a692a257c8a391d390"
 after_build:
   # For once the build has completed
 # artifacts:
