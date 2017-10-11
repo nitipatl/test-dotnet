@@ -22,9 +22,8 @@ before_build:
   - cmd: dotnet restore ./PrimeService/PrimeService.csproj --verbosity m
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
-  - choco install "msbuild-sonarqube-runner" -y
   - cmd: dotnet publish ./PrimeService/PrimeService.csproj
- after_build:
+after_build:
   # For once the build has completed
 # artifacts:
 #  - path: '\src\bin\Debug\netcoreapp1.1\publish'
