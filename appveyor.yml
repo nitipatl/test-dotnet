@@ -40,6 +40,7 @@ test_script:
   - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests" -filter:"+[*]* -[xunit*]*" -output:".\xunit-results.xml" -oldStyle
 on_finish :
   - ps: Push-AppveyorArtifact ".\xunit-results.xml"
-  - MSBuild.SonarQube.Runner.exe begin /k:"dotnet-test-ok" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.login=439d405a2f00413b559f69a692a257c8a391d390" /d:"sonar.sources=." /d:"sonar.projectName=My project" /d:"sonar.projectVersion=1.0"
+  - MSBuild.SonarQube.Scanner.exe begin /k:"test-dotnet-taey" /d:"sonar.host.url=http://kpc-sonar.kingpowerclick.com" /n:"test-dotnet-taey" /v:"1.0.0"  
+  - MSBuild.SonarQube.Scanner.exe end
   # any cleanup in here
 deploy: off
