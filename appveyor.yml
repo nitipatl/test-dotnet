@@ -39,7 +39,7 @@ test_script:
   # # run the unit tests (requires changing into the test directory)
   # - cmd: cd PrimeService.Tests
   # - cmd: dotnet test ./PrimeService.Tests/PrimeService.Tests.csproj
-  - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test --configuration Release --framework netcoreapp2.0" -filter:"+[*]*" -output:".\xunit-results.xml" -returntargetcode -oldstyle
+  - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test *.Tests/ --configuration Release --framework netcoreapp2.0" -filter:"+[*]*" -output:".\xunit-results.xml" -returntargetcode -oldstyle
 on_finish :
   - ps: Push-AppveyorArtifact ".\xunit-results.xml"
   - MSBuild.SonarQube.Runner.exe begin /k:"test-dotnet-taey" /d:"sonar.host.url=http://kpc-sonar.kingpowerclick.com" /n:"test-dotnet-taey" /v:"1.0.0" /d:sonar.cs.opencover.reportsPaths="xunit-results.xml"
