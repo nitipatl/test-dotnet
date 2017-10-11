@@ -21,9 +21,9 @@ before_build:
   # Display minimal restore text
   - cmd: dotnet restore ./PrimeService/PrimeService.csproj --verbosity m
   - choco install "msbuild-sonarqube-runner" -y
-  - MSBuild.SonarQube.Scanner.exe begin /k:"test-dotnet-taey" /d:"sonar.host.url=http://kpc-sonar.kingpowerclick.com" /n:"test-dotnet-taey" /v:"1.0.0"  
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
+  - MSBuild.SonarQube.Runner.exe begin /k:"test-dotnet-taey" /d:"sonar.host.url=http://kpc-sonar.kingpowerclick.com" /n:"test-dotnet-taey" /v:"1.0.0"  
   - cmd: dotnet publish ./PrimeService/PrimeService.csproj
 after_build:
   # For once the build has completed
@@ -41,6 +41,6 @@ test_script:
   - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests" -filter:"+[*]* -[xunit*]*" -output:".\xunit-results.xml" -oldStyle
 on_finish :
   - ps: Push-AppveyorArtifact ".\xunit-results.xml"
-  - MSBuild.SonarQube.Scanner.exe end
+  - MSBuild.SonarQube.Runner.exe end
   # any cleanup in here
 deploy: off
