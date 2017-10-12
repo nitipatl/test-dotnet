@@ -19,9 +19,8 @@ install:
 before_build:
   - cmd: dotnet --version
   - cmd: dotnet restore --verbosity m
-  - MSBuild.SonarQube.Runner.exe begin /k:"test-dotnet-taey" /d:"sonar.host.url=http://kpc-sonar.kingpowerclick.com" /n:"test-dotnet-taey" /v:"1.0.0" /d:sonar.cs.opencover.reportsPaths="xunit-results.xml"
 build_script:
-  - cmd: dotnet build
+  - cmd: dotnet build --configuration Release
 after_build:
   # For once the build has completed
 # artifacts:
@@ -30,8 +29,10 @@ after_build:
 #    type: WebDeployPackage
 clone_depth: 0
 test_script:
-  - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests/PrimeService.Tests.csproj --configuration Release --framework netcoreapp2.0" -filter:"+[*]*" -output:".\xunit-results.xml" -returntargetcode -oldstyle
+  - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests/PrimeService.Tests.csproj --configuration Release --framework netcoreapp2.0" -filter:"+[*]*" -output:".\unit-result.xml" -returntargetcode -oldstyle
 on_finish :
-  - ps: Push-AppveyorArtifact ".\xunit-results.xml"
+  - ps: Push-AppveyorArtifact ".\unit-result.xml"
+  - MSBuild.SonarQube.Runner.exe begin /k:"test-dotnet-taey" /d:"sonar.host.url=http://kpc-sonar.kingpowerclick.com" /n:"test-dotnet-taey" /v:"1.0.0" /d:sonar.cs.opencover.reportsPaths="unit-result.xml"
+  - msbuild /t:rebuild
   - MSBuild.SonarQube.Runner.exe end
 deploy: off
