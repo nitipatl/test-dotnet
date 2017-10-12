@@ -30,7 +30,7 @@ after_build:
 #    type: WebDeployPackage
 clone_depth: 0
 test_script:
-  - cmd: dotnet test ./PrimeService.Tests/PrimeService.Tests.csproj
+  - cmd: OpenCover.Console.exe -register:user -target:"dotnet.exe" -targetargs:"test ./PrimeService.Tests/PrimeService.Tests.csproj --configuration Release --framework netcoreapp2.0" -filter:"+[*]*" -output:".\xunit-results.xml" -returntargetcode -oldstyle
 on_finish :
   - ps: Push-AppveyorArtifact ".\xunit-results.xml"
   - MSBuild.SonarQube.Runner.exe end
